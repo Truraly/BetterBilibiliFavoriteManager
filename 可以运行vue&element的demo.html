@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Import style -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/element-plus/dist/index.css"
+    />
+    <!-- Import Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Import component library -->
+    <script src="https://unpkg.com/element-plus"></script>
+  </head>
+  <body>
+    <div id="app" style="position: fixed; top: 200px; left: 0">
+      {{ message }}
+      <el-button >{{ message }}</el-button>
+    </div>
+    <script>
+      setTimeout(() => {
+        const { createApp, ref } = Vue;
+        console.log("createApp");
+        console.log("Vue", Vue);
+        console.log("ElementPlus", ElementPlus);
+        createApp({
+          setup() {
+            const message = ref("Hello vue!");
+            return {
+              message,
+            };
+          },
+        })
+          .use(ElementPlus)
+          .mount("#appp");
+      }, 3000);
+    </script>
+  </body>
+</html>
+
+<script>
+  //  通过js注入到head最前面
+  //  https://unpkg.com/element-plus/dist/index.css"
+  //  https://unpkg.com/vue@3/dist/vue.global.js"
+  //  https://unpkg.com/element-plus"
+
+  let link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "https://unpkg.com/element-plus/dist/index.css";
+  document.head.insertBefore(link, document.head.childNodes[0]);
+
+  let script = document.createElement("script");
+  script.src = "https://unpkg.com/vue@3/dist/vue.global.js";
+  document.head.insertBefore(script, document.head.childNodes[0]);
+
+  let script2 = document.createElement("script");
+  script2.src = "https://unpkg.com/element-plus";
+  document.head.insertBefore(script2, document.head.childNodes[0]);
+
+  // 添加app div设置为固定在0,0位置
+  let div = document.createElement("div");
+  div.id = "appp";
+  div.style.position = "fixed";
+  div.style.top = "600px";
+  div.style.left = "0";
+  div.innerHTML = `
+  {{ message }}
+      <el-button >{{ message }}</el-button>
+    `;
+  document.body.appendChild(div);
+
+  // 注入下列js代码到body最后面
+  let script3 = document.createElement("script");
+  script3.innerHTML = `
+setTimeout(() => {
+    const { createApp, ref } = Vue;
+    console.log("createApp");
+    console.log("Vue", Vue);
+    console.log("ElementPlus", ElementPlus);
+  createApp({
+    setup() {
+      const message = ref("Hello vue!");
+      return {
+        message,
+      };
+    },
+  })
+    .use(ElementPlus)
+    .mount("#appp");
+}, 3000);
+    `;
+  document.body.appendChild(script3);
+</script>
